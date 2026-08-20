@@ -8,14 +8,13 @@ import { featuredPortfolio, FeaturedPortfolioItem } from "@/content/portfolio";
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
 
+import { inferRouterOutputs } from "@trpc/server";
+import { AppRouter } from "@/server/routers";
+
 /* ─── Type union ─────────────────────────────────────────────── */
-type AnyItem = FeaturedPortfolioItem | {
-  id: number; slug: string; title: string;
-  excerpt?: string | null; category?: string | null;
-  service?: string | null; coverImageUrl?: string | null;
-  mediaUrls?: string[]; liveUrl?: string | null;
-  featured?: boolean; displayOrder?: number;
-};
+type RouterOutput = inferRouterOutputs<AppRouter>;
+type TRPCPortfolioItem = RouterOutput["portfolio"]["listPublished"][number];
+type AnyItem = FeaturedPortfolioItem | TRPCPortfolioItem;
 
 /* ─── helpers ────────────────────────────────────────────────── */
 function getGallery(item: AnyItem): string[] {
