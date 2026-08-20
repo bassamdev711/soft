@@ -1,0 +1,17 @@
+"use client";
+
+import DashboardLayout from "@/components/DashboardLayout";
+import { trpc } from "@/lib/trpc";
+import { Check, MessageSquareQuote, X } from "lucide-react";
+import { AdminEmptyState, AdminErrorState, AdminLoadingState } from "@/components/AdminQueryState";
+import { AdminPageHeader } from "@/components/AdminPageHeader";
+
+function TestimonialsAdmin() {
+  const utils = trpc.useUtils();
+  const testimonials = trpc.testimonials.list.useQuery();
+  const moderate = trpc.testimonials.moderate.useMutation({ onSuccess: () => utils.testimonials.list.invalidate() });
+
+  return <div dir="rtl" className="mx-auto max-w-7xl space-y-7"><AdminPageHeader eyebrow="ORA / TESTIMONIALS" title="المراجعات والشهادات" description="راجع المصدر والموافقة قبل نشر أي شهادة على الموقع العام." /><div className="grid gap-4">{testimonials.isLoading ? <AdminLoadingState label="جارٍ تحميل المراجعات..." /> : testimonials.isError ? <AdminErrorState label="تعذر تحميل المراجعات" onRetry={() => testimonials.refetch()} /> : testimonials.data?.length ? testimonials.data.map(item => <article key={item.id} className="rounded-[1.5rem] border border-slate-200 bg-white p-6 shadow-sm"><div className="flex flex-col justify-between gap-6 lg:flex-row"><div className="flex gap-4"><div className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-amber-50 text-amber-600"><MessageSquareQuote className="h-5 w-5" /></div><div><div className="flex flex-wrap items-center gap-3"><h2 className="font-display text-2xl font-bold text-slate-900">{item.displayName}</h2><span className={`rounded-full px-3 py-1 text-xs font-bold ${item.status === "approved" ? "bg-emerald-50 text-emerald-700" : item.status === "rejected" ? "bg-red-50 text-red-700" : "bg-amber-50 text-amber-700"}`}>{item.status === "approved" ? "معتمدة" : item.status === "rejected" ? "مرفوضة" : item.status === "archived" ? "مؤرشفة" : "قيد المراجعة"}</span></div><p className="mt-2 text-sm font-semibold text-amber-600">التقييم: {item.rating} من 5</p><blockquote className="mt-4 max-w-3xl text-base leading-8 text-slate-600">“{item.quote}”</blockquote><p className="mt-3 text-sm text-slate-400">{[item.role, item.company].filter(Boolean).join(" · ") || "بيانات تعريفية غير مضافة"}</p><p className={`mt-3 text-xs font-bold ${item.consentToPublish ? "text-emerald-600" : "text-red-600"}`}>{item.consentToPublish ? "تم تسجيل موافقة النشر" : "لا توجد موافقة نشر مسجلة"}</p></div></div><div className="flex h-fit flex-wrap gap-2">{item.status !== "approved" && item.consentToPublish && <button type="button" onClick={() => moderate.mutate({ id: item.id, status: "approved" })} className="button-primary"><Check className="h-4 w-4" /> اعتماد ونشر</button>}{item.status !== "rejected" && <button type="button" onClick={() => moderate.mutate({ id: item.id, status: "rejected" })} className="button-secondary text-red-700"><X className="h-4 w-4" /> رفض</button>}{item.status === "approved" && <button type="button" onClick={() => moderate.mutate({ id: item.id, status: "archived" })} className="button-secondary">أرشفة</button>}</div></div></article>) : <AdminEmptyState icon={MessageSquareQuote} title="لا توجد مراجعات بانتظار المعالجة" description="ستظهر هنا المراجعات الجديدة بعد وصولها، ثم يمكن اعتمادها أو رفضها قبل ظهورها للزوار." />}</div></div>;
+}
+
+export default function TestimonialsAdminPage() { return <DashboardLayout><TestimonialsAdmin /></DashboardLayout>; }
