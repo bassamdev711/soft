@@ -27,8 +27,10 @@ class SDKServer {
   }
 
   private getSessionSecret() {
-    const secret = ENV.cookieSecret;
-    return new TextEncoder().encode(secret);
+    if (ENV.isProduction && !ENV.hasProductionAuthConfig) {
+      throw new Error("Production authentication secrets are not configured");
+    }
+    return new TextEncoder().encode(ENV.cookieSecret);
   }
 
   async createSessionToken(

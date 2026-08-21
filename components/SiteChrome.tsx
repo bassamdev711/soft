@@ -53,7 +53,7 @@ export function SiteHeader() {
 
   return (
     <header
-      className={`sticky top-0 z-50 transition-all duration-300 ${
+      className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
         scrolled
           ? "border-b border-[#2A2B2F] bg-[#0E0F11]/92 backdrop-blur-md"
           : "border-b border-transparent bg-transparent"
@@ -256,6 +256,7 @@ export function SiteShell({ children }: { children: ReactNode }) {
   return (
     <div className="min-h-screen bg-[#0E0F11] text-[#F0F0F0] flex flex-col">
       <SiteHeader />
+      <div aria-hidden="true" className="h-16 shrink-0 sm:h-[68px]" />
       <main className="flex-1 overflow-x-clip">{children}</main>
       <SiteFooter />
     </div>

@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { createContactMessage, listContactMessages, updateContactMessage, writeAuditLog } from "../db";
 import { adminProcedure, publicProcedure, router } from "../_core/trpc";
+import { enforceRateLimit } from "../_core/security";
 
 const messageInput = z.object({
   name: z.string().trim().min(2).max(160),
@@ -11,7 +12,8 @@ const messageInput = z.object({
 });
 
 export const contactMessagesRouter = router({
-  submit: publicProcedure.input(messageInput).mutation(async ({ input }) => {
+  submit: publicProcedure.input(messageInput).mutation(async ({ input, ctx }) => {
+    await enforceRateLimit(ctx.req, "contact", { limit: 5, windowMs: 60 * 60 * 1000, identity: `email:${input.email.toLowerCase()}` });
     if (input.website) return { accepted: true, ignored: true } as const;
     await createContactMessage({
       name: input.name,
