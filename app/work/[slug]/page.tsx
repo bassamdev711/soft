@@ -7,6 +7,7 @@ import { trpc } from "@/lib/trpc";
 import { getFeaturedPortfolioBySlug } from "@/content/portfolio";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { PortfolioImage } from "@/components/PortfolioImage";
 
 export default function WorkDetail() {
   const params = useParams<{ slug: string }>();
@@ -54,7 +55,7 @@ export default function WorkDetail() {
                 {"liveUrl" in work && work.liveUrl && <a href={work.liveUrl} target="_blank" rel="noreferrer" aria-label="معاينة الموقع الحي" title="معاينة الموقع الحي" className="inline-flex items-center gap-2 rounded-full border border-indigo-300/40 px-4 py-2 text-sm font-bold text-indigo-200 transition hover:border-indigo-200 hover:bg-indigo-300/10 hover:text-white"><ExternalLink className="h-4 w-4" aria-hidden="true" /> معاينة الموقع</a>}
               </div>
             </div>
-            {selectedImage && <div className="overflow-hidden rounded-[1.5rem] border border-white/10 bg-slate-950/70 shadow-2xl shadow-black/20"><img src={selectedImage} alt={selectedLabel} className="aspect-[16/10] w-full object-cover object-top" /></div>}
+            {selectedImage && <div className="relative aspect-[16/10] overflow-hidden rounded-[1.5rem] border border-white/10 bg-slate-950/70 shadow-2xl shadow-black/20"><PortfolioImage src={selectedImage} alt={selectedLabel} sizes="(max-width: 1023px) 100vw, 45vw" priority className="object-cover object-top" /></div>}
           </div>
         </div>
       </section>
@@ -76,7 +77,7 @@ export default function WorkDetail() {
 
           <figure className="mt-4 overflow-hidden rounded-[1.5rem] border border-white/10 bg-[#08111f]">
             <div className="flex min-h-[18rem] items-center justify-center bg-[#07101c] p-3 sm:min-h-[28rem] lg:min-h-[34rem]">
-              {selectedImage && <img src={selectedImage} alt={selectedLabel} className="max-h-[38rem] w-full object-contain" />}
+              {selectedImage && <div className="relative h-[18rem] w-full sm:h-[28rem] lg:h-[34rem]"><PortfolioImage src={selectedImage} alt={selectedLabel} sizes="(max-width: 639px) 100vw, 90vw" className="object-contain" /></div>}
             </div>
             <figcaption className="border-t border-white/10 px-5 py-4 text-sm font-bold text-slate-200">{selectedLabel}</figcaption>
           </figure>

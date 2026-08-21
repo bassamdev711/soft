@@ -8,6 +8,7 @@ import { services, workSteps } from "@/content/site";
 import { trpc } from "@/lib/trpc";
 import { motion } from "framer-motion";
 import { featuredPortfolio } from "@/content/portfolio";
+import { PortfolioImage } from "@/components/PortfolioImage";
 
 /* ═══════════════════════════════════════════════════════
    PRODUCT INTERFACE MOCKUP
@@ -27,7 +28,7 @@ function ProductMockup() {
         <span className="h-2 w-2 rounded-full bg-[#2A2B2F]" />
         <span className="h-2 w-2 rounded-full bg-[#2A2B2F]" />
         <span className="h-2 w-2 rounded-full bg-[#2A2B2F]" />
-        <div className="mx-2 flex-1 overflow-hidden sm:mx-4 rounded-sm bg-[#0E0F11] px-3 py-1 text-center font-mono text-[10px] text-[#4A4B4E]">
+        <div className="mx-2 flex-1 overflow-hidden sm:mx-4 rounded-sm bg-[#0E0F11] px-3 py-1 text-center font-mono text-[10px] text-[#8A8B8E]">
           ora / discovery
         </div>
       </div>
@@ -60,7 +61,7 @@ function ProductMockup() {
                 className={`rounded-sm px-2.5 py-2 text-right text-[10.5px] font-medium ${
                   item.active
                     ? "bg-[#C8A97E]/10 text-[#C8A97E]"
-                    : "text-[#4A4B4E]"
+                    : "text-[#8A8B8E]"
                 }`}
               >
                 {item.label}
@@ -104,7 +105,7 @@ function ProductMockup() {
         <div className="min-w-0 flex-1 overflow-hidden p-3 sm:p-5">
           {/* Header row */}
           <div className="mb-5 flex items-center justify-between">
-            <span className="font-mono text-[9.5px] tracking-[0.14em] text-[#4A4B4E]">
+            <span className="font-mono text-[9.5px] tracking-[0.14em] text-[#8A8B8E]">
               اكتشاف المنتج
             </span>
             <span className="rounded-sm border border-[#C8A97E]/20 bg-[#C8A97E]/6 px-2 py-0.5 font-mono text-[9px] text-[#C8A97E]">
@@ -128,7 +129,7 @@ function ProductMockup() {
                 key={stat.label}
                 className="rounded border border-[#2A2B2F] bg-[#1C1D20] p-2.5 text-right"
               >
-                <p className="font-mono text-[8.5px] text-[#4A4B4E]">{stat.label}</p>
+                <p className="font-mono text-[8.5px] text-[#8A8B8E]">{stat.label}</p>
                 <p
                   className={`mt-1 text-[9.5px] font-semibold ${
                     stat.ok ? "text-[#C8A97E]" : "text-[#8A8B8E]"
@@ -163,7 +164,7 @@ function ProductMockup() {
                 </div>
                 <span
                   className={`flex-1 text-right text-[10px] ${
-                    task.done ? "text-[#4A4B4E] line-through" : "text-[#8A8B8E]"
+                    task.done ? "text-[#8A8B8E] line-through" : "text-[#8A8B8E]"
                   }`}
                 >
                   {task.text}
@@ -223,8 +224,8 @@ export default function Home() {
 
           {/* Left column: text */}
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ y: 16 }}
+            animate={{ y: 0 }}
             transition={{ duration: 0.55, ease: [0.2, 0.8, 0.2, 1] }}
           >
             <p className="eyebrow">ORA · شريكك الرقمي</p>
@@ -275,7 +276,7 @@ export default function Home() {
 
             {/* Floating label — clean, no glow */}
             <div className="absolute -bottom-4 -right-3 hidden rounded-md border border-[#2A2B2F] bg-[#161719] px-4 py-3 lg:block shadow-lg shadow-black/30">
-              <p className="font-mono text-[8px] uppercase tracking-[0.16em] text-[#4A4B4E]">
+              <p className="font-mono text-[8px] uppercase tracking-[0.16em] text-[#8A8B8E]">
                 الخطوة الحالية
               </p>
               <p className="mt-1 text-[11.5px] font-semibold text-[#F0F0F0]">
@@ -483,12 +484,11 @@ export default function Home() {
                       <div className="block">
                         <div className="relative aspect-[16/10] overflow-hidden bg-[#1C1D20]">
                           {item.coverImageUrl ? (
-                            <img
+                            <PortfolioImage
                               src={item.coverImageUrl}
                               alt={item.title}
-                              loading="lazy"
-                              decoding="async"
-                              className="h-full w-full object-cover object-top transition duration-500 group-hover:scale-105"
+                              sizes="(max-width: 767px) 100vw, (max-width: 1279px) 50vw, 33vw"
+                              className="object-cover object-top transition duration-500 group-hover:scale-105"
                             />
                           ) : (
                             <div className="grid h-full place-items-center">

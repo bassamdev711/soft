@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { ArrowLeft, Mail, Menu, Phone, X } from "lucide-react";
 import { useEffect, useState, type ReactNode } from "react";
@@ -23,9 +24,12 @@ const logoUrl = "/brand/ora-official-lockup-alpha.png";
 export function OraMark({ compact = false }: { compact?: boolean }) {
   return (
     <Link href="/" className="group inline-flex shrink-0 items-center" aria-label="ORA — الرئيسية">
-      <img
+      <Image
         src={logoUrl}
         alt="ORA Soft"
+        width={1920}
+        height={1920}
+        sizes="144px"
         style={{ height: compact ? 40 : 56, width: "auto" }}
         className="max-w-36 object-contain transition-transform duration-200 group-hover:scale-[1.03]"
       />
@@ -49,7 +53,7 @@ export function SiteHeader() {
 
   return (
     <header
-      className={`sticky top-0 z-50 transition-all duration-300 ${
+      className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
         scrolled
           ? "border-b border-[#2A2B2F] bg-[#0E0F11]/92 backdrop-blur-md"
           : "border-b border-transparent bg-transparent"
@@ -160,7 +164,14 @@ export function SiteFooter() {
         {/* Brand */}
         <div>
           <div className="max-w-[180px]">
-            <img src="/brand/ora-official-lockup-alpha.png" alt="ORA — الشعار الرسمي" className="h-auto w-full object-contain" />
+            <Image
+              src="/brand/ora-official-lockup-alpha.png"
+              alt="ORA — الشعار الرسمي"
+              width={1920}
+              height={1920}
+              sizes="180px"
+              className="h-auto w-full object-contain"
+            />
           </div>
           <p className="mt-5 max-w-xs text-[0.875rem] leading-[1.8] text-[#8A8B8E]">
             {footerMessage}
@@ -169,7 +180,7 @@ export function SiteFooter() {
 
         {/* Nav links */}
         <div>
-          <p className="font-mono text-[0.625rem] font-semibold tracking-[0.18em] text-[#4A4B4E] uppercase">
+          <p className="font-mono text-[0.625rem] font-semibold tracking-[0.18em] text-[#8A8B8E] uppercase">
             استكشف
           </p>
           <div className="mt-5 grid gap-3.5">
@@ -187,7 +198,7 @@ export function SiteFooter() {
 
         {/* CTA */}
         <div>
-          <p className="font-mono text-[0.625rem] font-semibold tracking-[0.18em] text-[#4A4B4E] uppercase">
+          <p className="font-mono text-[0.625rem] font-semibold tracking-[0.18em] text-[#8A8B8E] uppercase">
             خطوتك التالية
           </p>
           <p className="mt-5 text-[0.875rem] leading-[1.8] text-[#8A8B8E]">
@@ -233,7 +244,7 @@ export function SiteFooter() {
       </div>
 
       {/* Bottom bar */}
-      <div className="container flex flex-col gap-2 border-t border-[#1E1F22] py-6 text-[0.6875rem] text-[#4A4B4E] sm:flex-row sm:items-center sm:justify-between">
+      <div className="container flex flex-col gap-2 border-t border-[#1E1F22] py-6 text-[0.6875rem] text-[#8A8B8E] sm:flex-row sm:items-center sm:justify-between">
         <p>© {new Date().getFullYear()} ORA. جميع الحقوق محفوظة.</p>
         <p>نحترم خصوصية الطلبات ونستخدم المعلومات لتنسيق التواصل بشأن المشروع فقط.</p>
       </div>
@@ -245,6 +256,7 @@ export function SiteShell({ children }: { children: ReactNode }) {
   return (
     <div className="min-h-screen bg-[#0E0F11] text-[#F0F0F0] flex flex-col">
       <SiteHeader />
+      <div aria-hidden="true" className="h-16 shrink-0 sm:h-[68px]" />
       <main className="flex-1 overflow-x-clip">{children}</main>
       <SiteFooter />
     </div>
@@ -266,8 +278,8 @@ export function PageHero({
     <section className="border-b border-[#2A2B2F] bg-[#0E0F11] pb-12 pt-14 sm:pb-20 sm:pt-28">
       <div className="container">
         <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={{ y: 12 }}
+          animate={{ y: 0 }}
           transition={{ duration: 0.5, ease: [0.2, 0.8, 0.2, 1] }}
         >
           <p className="eyebrow">{eyebrow}</p>

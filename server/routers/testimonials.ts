@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { listApprovedTestimonials, listTestimonials, saveTestimonial, updateTestimonial, writeAuditLog } from "../db";
 import { adminProcedure, publicProcedure, router } from "../_core/trpc";
+import { enforceRateLimit } from "../_core/security";
 
 const testimonialInput = z.object({
   displayName: z.string().trim().min(2).max(160),
@@ -15,7 +16,8 @@ const testimonialInput = z.object({
 
 export const testimonialsRouter = router({
   listApproved: publicProcedure.query(() => listApprovedTestimonials()),
-  submit: publicProcedure.input(testimonialInput).mutation(async ({ input }) => {
+  submit: publicProcedure.input(testimonialInput).mutation(async ({ input, ctx }) => {
+    await enforceRateLimit(ctx.req, "testimonial", { limit: 3, windowMs: 60 * 60 * 1000, identity: `name:${input.displayName.toLowerCase()}` });
     const testimonial = await saveTestimonial({
       ...input,
       role: input.role ?? null,

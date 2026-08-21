@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { createProjectRequest, listProjectRequests, updateProjectRequest, writeAuditLog } from "../db";
 import { adminProcedure, publicProcedure, router } from "../_core/trpc";
+import { enforceRateLimit } from "../_core/security";
 
 export const projectRequestInput = z.object({
   name: z.string().trim().min(2, "يرجى كتابة اسم واضح.").max(160),
@@ -16,7 +17,8 @@ export function isSpamSubmission(input: z.infer<typeof projectRequestInput>) {
 }
 
 export const projectRequestsRouter = router({
-  submit: publicProcedure.input(projectRequestInput).mutation(async ({ input }) => {
+  submit: publicProcedure.input(projectRequestInput).mutation(async ({ input, ctx }) => {
+    await enforceRateLimit(ctx.req, "projectRequest", { limit: 5, windowMs: 60 * 60 * 1000, identity: `email:${input.email.toLowerCase()}` });
     if (isSpamSubmission(input)) return { accepted: true, ignored: true, reference: null } as const;
     try {
       const created = await createProjectRequest({

@@ -7,6 +7,7 @@ import { trpc } from "@/lib/trpc";
 import { featuredPortfolio, FeaturedPortfolioItem } from "@/content/portfolio";
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
+import { PortfolioImage } from "@/components/PortfolioImage";
 
 import { inferRouterOutputs } from "@trpc/server";
 import { AppRouter } from "@/server/routers";
@@ -50,8 +51,8 @@ function FeaturedCard({ item }: { item: AnyItem }) {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 28 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={{ y: 28 }}
+      whileInView={{ y: 0 }}
       viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 0.55 }}
       className="group relative grid overflow-hidden border border-[#2A2B2F] bg-[#161719] transition-colors duration-300 hover:border-[#C8A97E]/30 lg:grid-cols-[1.15fr_1fr]"
@@ -60,17 +61,16 @@ function FeaturedCard({ item }: { item: AnyItem }) {
     >
       {/* ── Image panel ── */}
       <div className="relative aspect-[16/10] overflow-hidden bg-[#1C1D20] lg:aspect-auto lg:min-h-[420px]">
-        {gallery.map((src, i) => (
-          <img
-            key={src} src={src} alt=""
-            loading={i === 0 ? "eager" : "lazy"}
-            decoding="async"
-            fetchPriority={i === 0 ? "high" : "low"}
-            className={`absolute inset-0 h-full w-full object-cover object-top transition-opacity duration-700 ${
-              i === active ? "opacity-100" : "opacity-0"
-            }`}
+        {gallery.length > 0 && (
+          <PortfolioImage
+            key={gallery[active]}
+            src={gallery[active]}
+            alt={item.title}
+            sizes="(max-width: 1023px) 100vw, 58vw"
+            priority
+            className="object-cover object-top"
           />
-        ))}
+        )}
 
         {/* dim overlay for text legibility */}
         <div className="absolute inset-0 bg-gradient-to-l from-[#161719] via-[#161719]/0 to-transparent opacity-0 lg:opacity-100" />
@@ -81,11 +81,19 @@ function FeaturedCard({ item }: { item: AnyItem }) {
             {gallery.map((_, i) => (
               <button
                 key={i}
+                type="button"
+                aria-label={`عرض ${i + 1} من ${gallery.length} — ${item.title}`}
+                aria-pressed={i === active}
                 onClick={() => setActive(i)}
-                className={`h-1 rounded-full transition-all duration-400 ${
-                  i === active ? "w-6 bg-[#C8A97E]" : "w-1 bg-white/25"
-                }`}
-              />
+                className="grid h-11 w-11 place-items-center rounded-full"
+              >
+                <span
+                  aria-hidden="true"
+                  className={`h-1 rounded-full transition-all duration-400 ${
+                    i === active ? "w-6 bg-[#C8A97E]" : "w-1 bg-white/25"
+                  }`}
+                />
+              </button>
             ))}
           </div>
         )}
@@ -114,7 +122,7 @@ function FeaturedCard({ item }: { item: AnyItem }) {
             {item.category ?? "مشروع"}
           </span>
           <span className="h-px flex-1 bg-[#2A2B2F]" />
-          <span className="font-mono text-[10px] text-[#4A4B4E]">01</span>
+          <span className="font-mono text-[10px] text-[#8A8B8E]">01</span>
         </div>
 
         <h2 className="mt-5 font-display text-[1.6rem] font-bold leading-[1.18] tracking-[-0.02em] text-[#F0F0F0] sm:text-3xl lg:text-[2rem]">
@@ -158,8 +166,8 @@ function ProjectCard({ item, index }: { item: AnyItem; index: number }) {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={{ y: 24 }}
+      whileInView={{ y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.45, delay: (index % 2) * 0.07 }}
       className="group relative flex flex-col overflow-hidden border border-[#2A2B2F] bg-[#161719] transition-colors duration-300 hover:border-[#C8A97E]/25"
@@ -170,16 +178,13 @@ function ProjectCard({ item, index }: { item: AnyItem; index: number }) {
       <div className="relative aspect-[16/10] overflow-hidden bg-[#1C1D20]">
         {gallery.length > 0 ? (
           <>
-            {gallery.map((src, i) => (
-              <img
-                key={src} src={src} alt=""
-                loading={i === 0 ? "eager" : "lazy"}
-                decoding="async"
-                className={`absolute inset-0 h-full w-full object-cover object-top transition-opacity duration-600 ${
-                  i === active ? "opacity-100" : "opacity-0"
-                }`}
-              />
-            ))}
+            <PortfolioImage
+              key={gallery[active]}
+              src={gallery[active]}
+              alt={item.title}
+              sizes="(max-width: 639px) 100vw, 50vw"
+              className="object-cover object-top"
+            />
             {/* subtle zoom on first image only */}
             <div className="absolute inset-0 transition-transform duration-700 group-hover:scale-[1.02]" />
           </>
@@ -270,8 +275,8 @@ export default function Work() {
           <div className="flex flex-col">
             {/* Heading block */}
             <motion.div
-              initial={{ opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={{ y: 14 }}
+              animate={{ y: 0 }}
               transition={{ duration: 0.5, ease: [0.2, 0.8, 0.2, 1] }}
             >
               {/* slim top label */}
