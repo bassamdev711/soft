@@ -29,7 +29,7 @@ export function ServiceCard({ service, className = "" }: { service: Service; cla
               {service.title}
             </h3>
           </div>
-          <p className="mt-2.5 break-words text-[0.875rem] leading-[1.7] text-[#4A4B4E] transition-colors duration-200 group-hover:text-[#8A8B8E]">
+          <p className="mt-2.5 break-words text-[0.875rem] leading-[1.7] text-[#8A8B8E] transition-colors duration-200 group-hover:text-[#8A8B8E]">
             {service.short}
           </p>
         </div>
@@ -92,7 +92,7 @@ export function CTASection() {
             >
               ابدأ طلب مشروع <ArrowLeft className="h-4 w-4" />
             </Link>
-            <p className="text-[0.6875rem] text-[#4A4B4E]">نطلب فقط ما نحتاجه لفهم البداية.</p>
+            <p className="text-[0.6875rem] text-[#8A8B8E]">نطلب فقط ما نحتاجه لفهم البداية.</p>
           </div>
         </div>
       </div>

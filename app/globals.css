@@ -1,13 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --font-sans:    "IBM Plex Sans Arabic", system-ui, sans-serif;
-  --font-display: "IBM Plex Sans Arabic", system-ui, sans-serif;
-  --font-mono:    "IBM Plex Mono", monospace;
+  --font-sans:    var(--font-ibm-sans-arabic), "IBM Plex Sans Arabic", system-ui, sans-serif;
+  --font-display: var(--font-ibm-sans-arabic), "IBM Plex Sans Arabic", system-ui, sans-serif;
+  --font-mono:    var(--font-ibm-mono), "IBM Plex Mono", monospace;
 
   --color-background:        var(--background);
   --color-foreground:        var(--foreground);

@@ -68,7 +68,7 @@ export default function About() {
           <div className="grid gap-12 lg:grid-cols-[1fr_1.3fr] lg:gap-24">
             
             <div className="lg:sticky lg:top-32 lg:h-fit">
-              <p className="font-mono text-[10px] font-semibold uppercase tracking-[.2em] text-[#4A4B4E]">
+              <p className="font-mono text-[10px] font-semibold uppercase tracking-[.2em] text-[#8A8B8E]">
                 فلسفتنا في العمل
               </p>
               <h2 className="mt-5 font-display text-3xl font-bold leading-[1.2] text-[#F0F0F0] sm:text-4xl">

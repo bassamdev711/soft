@@ -101,7 +101,7 @@ export default function ProjectRequest() {
 
           {/* ── Main Form Area ── */}
           <div className="order-1 lg:order-2">
-            <div className="mb-8 flex items-center justify-between border-b border-[#2A2B2F] pb-4 font-mono text-[10px] uppercase tracking-wider text-[#4A4B4E]">
+            <div className="mb-8 flex items-center justify-between border-b border-[#2A2B2F] pb-4 font-mono text-[10px] uppercase tracking-wider text-[#8A8B8E]">
               <span>معلومات المشروع</span>
               <span>الخطوة 1 من 1</span>
             </div>
@@ -109,6 +109,8 @@ export default function ProjectRequest() {
             {submitted ? (
               <motion.div 
                 initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+                role="status"
+                aria-live="polite"
                 className="border border-[#C8A97E]/30 bg-[#C8A97E]/5 p-8 text-center sm:p-16"
               >
                 <CheckCircle2 className="mx-auto h-12 w-12 text-[#C8A97E]" />
@@ -133,8 +135,10 @@ export default function ProjectRequest() {
                 
                 <div className="grid gap-6 sm:grid-cols-2">
                   <div className="space-y-2">
-                    <label className="text-xs font-bold tracking-wide text-[#F0F0F0]">الاسم الكامل</label>
-                    <input 
+                    <label htmlFor="request-name" className="text-xs font-bold tracking-wide text-[#F0F0F0]">الاسم الكامل</label>
+                    <input
+                      id="request-name"
+                      autoComplete="name"
                       required name="name" 
                       className="w-full border border-[#2A2B2F] bg-[#161719] px-4 py-3 text-sm text-[#F0F0F0] placeholder-[#4A4B4E] outline-none transition-colors focus:border-[#C8A97E]/50 focus:bg-[#1C1D20]" 
                       placeholder="محمد أحمد" 
@@ -142,8 +146,10 @@ export default function ProjectRequest() {
                   </div>
                   
                   <div className="space-y-2">
-                    <label className="text-xs font-bold tracking-wide text-[#F0F0F0]">البريد الإلكتروني المهني</label>
-                    <input 
+                    <label htmlFor="request-email" className="text-xs font-bold tracking-wide text-[#F0F0F0]">البريد الإلكتروني المهني</label>
+                    <input
+                      id="request-email"
+                      autoComplete="email"
                       required type="email" name="email" dir="ltr"
                       className="w-full border border-[#2A2B2F] bg-[#161719] px-4 py-3 text-sm text-[#F0F0F0] placeholder-[#4A4B4E] outline-none transition-colors focus:border-[#C8A97E]/50 focus:bg-[#1C1D20] text-left" 
                       placeholder="name@company.com" 
@@ -151,10 +157,12 @@ export default function ProjectRequest() {
                   </div>
 
                   <div className="space-y-2 sm:col-span-2">
-                    <label className="text-xs font-bold tracking-wide text-[#F0F0F0]">
-                      اسم الشركة أو المؤسسة <span className="text-[#4A4B4E] font-normal">(اختياري)</span>
+                    <label htmlFor="request-company" className="text-xs font-bold tracking-wide text-[#F0F0F0]">
+                      اسم الشركة أو المؤسسة <span className="text-[#8A8B8E] font-normal">(اختياري)</span>
                     </label>
-                    <input 
+                    <input
+                      id="request-company"
+                      autoComplete="organization"
                       name="company" 
                       className="w-full border border-[#2A2B2F] bg-[#161719] px-4 py-3 text-sm text-[#F0F0F0] placeholder-[#4A4B4E] outline-none transition-colors focus:border-[#C8A97E]/50 focus:bg-[#1C1D20]" 
                       placeholder="ORA Soft" 
@@ -162,8 +170,9 @@ export default function ProjectRequest() {
                   </div>
 
                   <div className="space-y-2 sm:col-span-2">
-                    <label className="text-xs font-bold tracking-wide text-[#F0F0F0]">نوع الخدمة المطلوبة</label>
-                    <select 
+                    <label htmlFor="request-service" className="text-xs font-bold tracking-wide text-[#F0F0F0]">نوع الخدمة المطلوبة</label>
+                    <select
+                      id="request-service"
                       required name="service" defaultValue="" 
                       className="w-full appearance-none border border-[#2A2B2F] bg-[#161719] px-4 py-3 text-sm text-[#F0F0F0] outline-none transition-colors focus:border-[#C8A97E]/50 focus:bg-[#1C1D20]"
                     >
@@ -180,8 +189,9 @@ export default function ProjectRequest() {
                   </div>
 
                   <div className="space-y-2 sm:col-span-2">
-                    <label className="text-xs font-bold tracking-wide text-[#F0F0F0]">نبذة عن المشروع</label>
-                    <textarea 
+                    <label htmlFor="request-brief" className="text-xs font-bold tracking-wide text-[#F0F0F0]">نبذة عن المشروع</label>
+                    <textarea
+                      id="request-brief"
                       required name="brief" 
                       className="min-h-[160px] w-full resize-y border border-[#2A2B2F] bg-[#161719] px-4 py-3 text-sm text-[#F0F0F0] placeholder-[#4A4B4E] outline-none transition-colors focus:border-[#C8A97E]/50 focus:bg-[#1C1D20]" 
                       placeholder="صف لنا المشكلة التي تحاول حلها، أو الفرصة التي تستهدفها، وما هي أهم النتائج التي تتوقعها من هذا المشروع..." 

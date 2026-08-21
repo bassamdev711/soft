@@ -5,8 +5,23 @@ import { Toaster } from "../components/ui/sonner";
 import ErrorBoundary from "../components/ErrorBoundary";
 import { TRPCReactProvider } from "../components/trpc-provider";
 import type { Metadata } from "next";
+import { IBM_Plex_Mono, IBM_Plex_Sans_Arabic } from "next/font/google";
 import { defaultCompanyContact } from "@/content/company";
 import { defaultKeywords, siteName, siteUrl } from "@/content/seo";
+
+const sansArabic = IBM_Plex_Sans_Arabic({
+  subsets: ["arabic"],
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-ibm-sans-arabic",
+  display: "swap",
+});
+
+const mono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  variable: "--font-ibm-mono",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -55,14 +70,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ar" dir="rtl" suppressHydrationWarning>
-      <body>
+      <body className={`${sansArabic.variable} ${mono.variable}`}>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
           "@context": "https://schema.org",
           "@type": "ProfessionalService",
           name: siteName,
           alternateName: "ORA",
           url: siteUrl,
-          logo: new URL("/brand/aura-official-mark.jpg", siteUrl).toString(),
+          logo: new URL("/brand/ora-official-lockup-alpha.png", siteUrl).toString(),
           image: new URL("/brand/ora-official-lockup.png", siteUrl).toString(),
           description: "شركة تقنية في اليمن تقدم تطوير المواقع والمنصات وتطبيقات الهواتف والحلول الرقمية.",
           email: defaultCompanyContact.email,
